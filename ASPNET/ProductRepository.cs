@@ -25,5 +25,11 @@ namespace ASPNET
         {
             return (Product)_conn.QuerySingle<Product>("SELECT * FROM Products WHERE ProductID = @id", new { id = id });
         }
+
+        public void UpdateProduct(Product product)
+        {
+            _conn.Execute("UPDATE Products SET Name = @prodName, Price = @prodPrice WHERE ProductID = @prodID",
+                new { prodName = product.Name, prodPrice = product.Price, prodID = product.ProductID });
+        }
     }
 }
