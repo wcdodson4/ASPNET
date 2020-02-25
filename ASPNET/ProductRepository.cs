@@ -31,5 +31,24 @@ namespace ASPNET
             _conn.Execute("UPDATE Products SET Name = @prodName, Price = @prodPrice WHERE ProductID = @prodID",
                 new { prodName = product.Name, prodPrice = product.Price, prodID = product.ProductID });
         }
+
+        public void InsertProduct(Product productToInsert)
+        {
+            _conn.Execute("INSERT INTO Products (Name, Price, CategoryID) VALUES (@name, @price, @categoryid)",
+                new { name = productToInsert.Name, price = productToInsert.Price, categoryid = productToInsert.CategoryID });
+        }
+
+        public IEnumerable<Category> GetCategories()
+        {
+            return _conn.Query<Category>("SELECT * FROM Categories");
+        }
+
+        public Product AssignCategory()
+        {
+            var categoryList = GetCategories();
+            var product = new Product();
+            product.Categories = categoryList;
+            return product;
+        }
     }
 }
